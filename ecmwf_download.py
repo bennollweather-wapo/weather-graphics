@@ -161,6 +161,7 @@ except Exception as e:
     print(f"Error during merge or sorting: {e}")
 
 ecmwf.to_netcdf('ecmwf.nc')
+ecmwf.to_zarr('ecmwf.zarr', consolidated=True)
 
 
 # In[ ]:
