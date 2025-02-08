@@ -9,7 +9,7 @@ Within the ecmwf.nc file, here is the variable name list:
 var_names = ['u', 'v', 'r', 'gh', 't', 'tp', 'skt', 't2m', 'sp', 'st', 'msl', 'tcwv', 
              'q', 'vo', 'd', 'ro', 'u10', 'v10', 'cape']
 
-## Variable Descriptions
+## Variable descriptions
 
 **u**: Zonal wind component (m/s), representing wind speed in the east-west direction.  
 
@@ -48,3 +48,7 @@ var_names = ['u', 'v', 'r', 'gh', 't', 'tp', 'skt', 't2m', 'sp', 'st', 'msl', 't
 **v10**: 10-meter meridional wind (m/s), the north-south wind component at 10 meters above ground.  
 
 **cape**: Convective available potential energy (J/kg), indicating atmospheric instability and the potential for convection or storms.  
+
+## Script descriptions
+
+**temp_extremes**: Computes the maximum and minimum temperatures across the United States over the next 15 days and plots them.  
