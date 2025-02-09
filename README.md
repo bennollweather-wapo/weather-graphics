@@ -53,6 +53,8 @@ var_names = ['u', 'v', 'r', 'gh', 't', 'tp', 'skt', 't2m', 'sp', 'st', 'msl', 't
 
 **temp_extremes**: Computes the maximum and minimum temperatures across the United States over the next 15 days and plots them. Useful for visualizing temperature extremes (e.g., polar vortex and heat waves)
 
+**precip**: Plots five and fifteen day rainfall. Useful for visualizing how much rain (or snow) may fall.
+
 **jet**: Computes jet stream winds and plots them. Useful for visualizing winds in the upper atmosphere, which fuels storms.
 
 **pwat_mslp**: Plots atmospheric moisture and air pressure. Useful for visualizing the level of moisture in the atmosphere and the strength of storms, which determines how much precipitation may fall.

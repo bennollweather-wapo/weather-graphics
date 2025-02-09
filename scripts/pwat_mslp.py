@@ -98,7 +98,7 @@ if fig_path.exists() == False:
 # In[12]:
 
 
-ds = xr.open_dataset('../data/ecmwf.nc')
+ds = xr.open_zarr("../data/ecmwf.zarr")
 
 
 # ### data munging

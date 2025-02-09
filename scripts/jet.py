@@ -91,8 +91,7 @@ if fig_path.exists() == False:
 # In[15]:
 
 
-forecast = xr.open_dataset('../data/ecmwf.nc')
-
+forecast = xr.open_zarr("../data/ecmwf.zarr")
 
 # In[16]:
 

@@ -61,7 +61,7 @@ date = date.strftime("%Y%m%d")
 # In[11]:
 
 
-ds = xr.open_dataset('../data/ecmwf.nc')
+ds = xr.open_zarr("../data/ecmwf.zarr")
 
 
 # ### convert from K to degrees F and C
