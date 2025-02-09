@@ -28,8 +28,6 @@ parent_dir = os.path.dirname(script_dir)
 # Create the full path to the data folder
 folder_path = os.path.join(parent_dir, folder_name)
 
-print(folder_path)
-
 # Create the folder if it doesn't exist
 os.makedirs(folder_path, exist_ok=True)
 
