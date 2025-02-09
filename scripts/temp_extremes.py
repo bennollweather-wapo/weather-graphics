@@ -46,6 +46,16 @@ from dateparser import parse
 from matplotlib import font_manager
 
 
+# ### parses date
+
+# In[36]:
+
+
+date = parse('today GMT')
+
+date = date.strftime("%Y%m%d")
+
+
 # ### opens dset
 
 # In[11]:
@@ -241,7 +251,7 @@ deep_south_states = [
 
 # ### temperature threshold - minimum, four categories
 
-# In[31]:
+# In[37]:
 
 
 import matplotlib.pyplot as plt
@@ -363,7 +373,7 @@ for state, (lon, lat) in state_centers.items():
                 fontsize=18, color='k', ha='center', va='center', zorder=105, alpha=0.5)
 
 # Save and display the plot
-save_path = "../imagery/min_temps-four_categories.png"
+save_path = f"../imagery/{date}/min_temps-four_categories.png"
 os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
 plt.savefig(save_path, facecolor=fig.get_facecolor(), dpi=100, bbox_inches="tight")
@@ -373,7 +383,7 @@ plt.show()
 
 # ### temperature threshold - minimum, five categories
 
-# In[32]:
+# In[38]:
 
 
 import matplotlib.pyplot as plt
@@ -500,7 +510,7 @@ for state, (lon, lat) in state_centers.items():
                 fontsize=18, color='k', ha='center', va='center', zorder=105, alpha=0.5)
 
 # Save and display the plot
-save_path = "../imagery/min_temps-five_categories.png"
+save_path = f"../imagery/{date}/min_temps-five_categories.png"
 os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
 plt.savefig(save_path, facecolor=fig.get_facecolor(), dpi=100, bbox_inches="tight")
@@ -510,7 +520,7 @@ plt.show()
 
 # ### temperature threshold - maximum, four categories
 
-# In[33]:
+# In[39]:
 
 
 import matplotlib.pyplot as plt
@@ -637,7 +647,7 @@ for state, (lon, lat) in state_centers.items():
                 fontsize=18, color='k', ha='center', va='center', zorder=105, alpha=0.5)
 
 # Save and display the plot
-save_path = "../imagery/max_temps-four_categories.png"
+save_path = f"../imagery/{date}/max_temps-four_categories.png"
 os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
 plt.savefig(save_path, facecolor=fig.get_facecolor(), dpi=100, bbox_inches="tight")
@@ -647,7 +657,7 @@ plt.show()
 
 # ### shorts weather
 
-# In[34]:
+# In[40]:
 
 
 import matplotlib.pyplot as plt
@@ -709,7 +719,7 @@ for state, (lon, lat) in state_centers.items():
                 fontsize=18, color='k', ha='center', va='center', zorder=105, alpha=0.5)
 
 # Save and display the plot
-save_path = "../imagery/shorts_weather.png"
+save_path = f"../imagery/{date}/shorts_weather.png"
 os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
 plt.savefig(save_path, facecolor=fig.get_facecolor(), dpi=100, bbox_inches="tight")
