@@ -7,6 +7,7 @@ To start generating graphics, you should:
 1. Clone this repository
 2. Create a Python enviroment using the yaml in /environment
 3. Run the following download script between 4:00 a.m. and noon eastern time
+4. Run the image-generating scripts as needed
 
 **ecmwf_download**: this script downloads the latest ECMWF weather model data, comprising 3 hourly forecasts from hour 0 to 144 and six hourly forecasts from hour 144 to 360, and merges it into a netcdf (~40 GB) and zarr (~15 GB) file. ECMWF runs four times daily (00, 06, 12 and 18 UTC). This script downloads 00 UTC data by default, but could be modified to download 12 UTC data. The data arrives at 08:34 UTC daily. This script can be triggered to run at 4:00 a.m. eastern time.
 
