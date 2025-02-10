@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[23]:
 
 
 import matplotlib as mpl
@@ -14,7 +14,7 @@ import scipy.ndimage as ndimage
 import pandas as pd
 
 
-# In[2]:
+# In[24]:
 
 
 from cartopy import config
@@ -28,7 +28,7 @@ from metpy.plots import USCOUNTIES
 import matplotlib.patheffects as pe
 
 
-# In[3]:
+# In[25]:
 
 
 import cmocean
@@ -39,16 +39,16 @@ import sys
 import os
 
 
-# In[4]:
+# In[26]:
 
 
 from dateparser import parse
 from matplotlib import font_manager
 
 
-# ### parses dates and run time
+# ### parses dates
 
-# In[5]:
+# In[27]:
 
 
 date = parse('today GMT')
@@ -56,9 +56,30 @@ date = parse('today GMT')
 date = date.strftime("%Y%m%d")
 
 
+# ### defines fig path
+
+# In[28]:
+
+
+fig_path = "../imagery/{}".format(date)
+
+
+# In[29]:
+
+
+fig_path = pathlib.Path(fig_path)
+
+
+# In[30]:
+
+
+if fig_path.exists() == False:
+    fig_path.mkdir(parents = True)
+
+
 # ### opens dset
 
-# In[6]:
+# In[31]:
 
 
 ds = xr.open_zarr("../data/ecmwf.zarr")
@@ -66,7 +87,7 @@ ds = xr.open_zarr("../data/ecmwf.zarr")
 
 # ### precip
 
-# In[7]:
+# In[32]:
 
 
 precip = ds['tp'] * 39.3701
@@ -74,7 +95,7 @@ precip = ds['tp'] * 39.3701
 
 # ### timestamp selection
 
-# In[8]:
+# In[33]:
 
 
 # Extract the time values for the specified indices
@@ -94,61 +115,61 @@ print(f"Timestamp for precip[-1]: {timestamp_5}") # Day 15
 
 # ### sets time
 
-# In[9]:
+# In[34]:
 
 
 conv = ds['valid_time'].dt.strftime('%Y-%m-%d %H')
 
 
-# In[10]:
+# In[35]:
 
 
 conv = conv.values
 
 
-# In[11]:
+# In[36]:
 
 
 step = ds['step']
 
 
-# In[12]:
+# In[37]:
 
 
 step = step.values
 
 
-# In[13]:
+# In[38]:
 
 
 step = step.astype('timedelta64[h]')
 
 
-# In[14]:
+# In[39]:
 
 
 valid_time = ds['valid_time'].dt.round('H')
 
 
-# In[15]:
+# In[40]:
 
 
 utc = valid_time.to_index()
 
 
-# In[16]:
+# In[41]:
 
 
 local = utc.tz_localize('GMT').tz_convert('America/New_York')
 
 
-# In[17]:
+# In[42]:
 
 
 local_time = local.strftime("%Y-%m-%d")
 
 
-# In[18]:
+# In[43]:
 
 
 formatted_dates = pd.to_datetime(local_time).strftime("%b. %d")
@@ -156,7 +177,7 @@ formatted_dates = pd.to_datetime(local_time).strftime("%b. %d")
 
 # ### plots
 
-# In[19]:
+# In[44]:
 
 
 lats = ds.variables['latitude'][:]  
@@ -165,7 +186,7 @@ lons = ds.variables['longitude'][:]
 
 # ### wapo styling
 
-# In[20]:
+# In[45]:
 
 
 font_path = '../fonts/Franklin/FranklinITCStd-Black.otf'
@@ -181,7 +202,7 @@ font_path4 = '../fonts/Franklin/FranklinITCStd-Light.otf'
 font_properties4 = font_manager.FontProperties(fname=font_path4, size=20)
 
 
-# In[21]:
+# In[46]:
 
 
 state_centers = {
@@ -244,7 +265,7 @@ deep_south_states = [
 
 # ### 15 day precip
 
-# In[22]:
+# In[47]:
 
 
 import matplotlib.pyplot as plt
@@ -327,17 +348,18 @@ def create_plot(region, output_file, title_offset):
     )
 
     # Define levels and colors
-    levels = [0.1, 0.5, 1, 2, 4, 8, 100]  # One more level to match number of colors
-    colors = ['#d4edc9', '#b2d6a0', '#91c078', '#6ea951', '#499327', '#38711e', '#285115']
+    levels = [0, 0.1, 0.5, 1, 2, 4, 8, 100]  # Include 0 as the lowest boundary
+    colors = ['#F5F5F5', '#d4edc9', '#b2d6a0', '#91c078', '#6ea951', '#499327', '#38711e', '#285115']  # Light gray for <0.1
+    
     cmap = ListedColormap(colors)
     norm = BoundaryNorm(boundaries=levels, ncolors=len(colors), extend='neither')
     
     # Plot the data
     data = ax.pcolormesh(lons, lats, precip[-1], cmap=cmap, norm=norm, transform=ccrs.PlateCarree())
 
-    # Create legend
-    legend_labels = ['0.1-0.50', '0.50-1', '1-2', '2-4', '4-8', '8+']
-    patches = [mpatches.Patch(color=cmap(i / (len(levels) - 1)), label=legend_labels[i]) for i in range(len(legend_labels))]
+    # Create legend, excluding <0.1
+    legend_labels = ['0.1-0.5', '0.5-1', '1-2', '2-4', '4-8', '8+']
+    patches = [mpatches.Patch(color=colors[i+1], label=legend_labels[i]) for i in range(len(legend_labels))]
     
     # Adjust legend position for "great_lakes" region
     legend_y_anchor = 0.88 if region == "great_lakes" else 0.83 + title_offset  
@@ -388,7 +410,7 @@ for region, params in regions.items():
 
 # ### 5-day precip
 
-# In[23]:
+# In[48]:
 
 
 import matplotlib.pyplot as plt
@@ -471,17 +493,18 @@ def create_plot(region, output_file, title_offset):
     )
 
     # Define levels and colors
-    levels = [0.1, 0.5, 1, 2, 4, 8, 100]  # One more level to match number of colors
-    colors = ['#d4edc9', '#b2d6a0', '#91c078', '#6ea951', '#499327', '#38711e', '#285115']
+    levels = [0, 0.1, 0.5, 1, 2, 4, 8, 100]  # Include 0 as the lowest boundary
+    colors = ['#F5F5F5', '#d4edc9', '#b2d6a0', '#91c078', '#6ea951', '#499327', '#38711e', '#285115']  # Light gray for <0.1
+    
     cmap = ListedColormap(colors)
     norm = BoundaryNorm(boundaries=levels, ncolors=len(colors), extend='neither')
     
     # Plot the data
     data = ax.pcolormesh(lons, lats, precip[40], cmap=cmap, norm=norm, transform=ccrs.PlateCarree())
 
-    # Create legend
-    legend_labels = ['0.1-0.50', '0.50-1', '1-2', '2-4', '4-8', '8+']
-    patches = [mpatches.Patch(color=cmap(i / (len(levels) - 1)), label=legend_labels[i]) for i in range(len(legend_labels))]
+    # Create legend, excluding <0.1
+    legend_labels = ['0.1-0.5', '0.5-1', '1-2', '2-4', '4-8', '8+']
+    patches = [mpatches.Patch(color=colors[i+1], label=legend_labels[i]) for i in range(len(legend_labels))]
     
     # Adjust legend position for "great_lakes" region
     legend_y_anchor = 0.88 if region == "great_lakes" else 0.83 + title_offset  

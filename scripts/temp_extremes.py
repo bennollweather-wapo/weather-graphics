@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 import matplotlib as mpl
@@ -14,7 +14,7 @@ import scipy.ndimage as ndimage
 import pandas as pd
 
 
-# In[2]:
+# In[3]:
 
 
 from cartopy import config
@@ -28,7 +28,7 @@ from metpy.plots import USCOUNTIES
 import matplotlib.patheffects as pe
 
 
-# In[3]:
+# In[4]:
 
 
 import cmocean
@@ -39,7 +39,7 @@ import sys
 import os
 
 
-# In[4]:
+# In[5]:
 
 
 from dateparser import parse
@@ -48,12 +48,33 @@ from matplotlib import font_manager
 
 # ### parses date
 
-# In[36]:
+# In[6]:
 
 
 date = parse('today GMT')
 
 date = date.strftime("%Y%m%d")
+
+
+# ### defines fig path
+
+# In[7]:
+
+
+fig_path = "../imagery/{}".format(date)
+
+
+# In[8]:
+
+
+fig_path = pathlib.Path(fig_path)
+
+
+# In[9]:
+
+
+if fig_path.exists() == False:
+    fig_path.mkdir(parents = True)
 
 
 # ### opens dset
@@ -79,6 +100,22 @@ temp_c = ds['t2m'] - 273.15
 
 
 # ### calculates minimum and maximum temperature over model run
+
+# In[62]:
+
+
+# Extract the time values for the specified indices
+timestamp_1 = temp.valid_time.isel(valid_time=0).dt.strftime("%b. %d").item()
+timestamp_2 = temp.valid_time.isel(valid_time=52).dt.strftime("%b. %d").item()
+timestamp_3 = temp.valid_time.isel(valid_time=40).dt.strftime("%b. %d").item()
+timestamp_4 = temp.valid_time.isel(valid_time=64).dt.strftime("%b. %d").item()
+
+# Print or use the formatted timestamps
+print(f"Timestamp for temp[0]: {timestamp_1}")
+print(f"Timestamp for temp[52]: {timestamp_2}")
+print(f"Timestamp for temp[40]: {timestamp_3}")
+print(f"Timestamp for temp[64]: {timestamp_4}")
+
 
 # In[16]:
 
