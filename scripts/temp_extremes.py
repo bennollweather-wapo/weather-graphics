@@ -137,9 +137,23 @@ diff = temp_max_week - temp_min_week # Difference between the highest and lowest
 # In[52]:
 
 
-# Extract the time values for the specified indices
-timestamp_1 = temp.valid_time.isel(valid_time=0).dt.strftime("%b. %-d").item()
-timestamp_2 = temp.valid_time.isel(valid_time=-1).dt.strftime("%b. %-d").item()
+# Define custom month abbreviations
+month_abbr = {
+    "Jan": "Jan.", "Feb": "Feb.", "Mar": "March", "Apr": "April", "May": "May",
+    "Jun": "June", "Jul": "July", "Aug": "Aug.", "Sep": "Sept.", "Oct": "Oct.", 
+    "Nov": "Nov.", "Dec": "Dec."
+}
+
+# Extract and format time values for the specified indices
+timestamp_1_raw = temp.valid_time.isel(valid_time=0).dt.strftime("%b %-d").item()
+timestamp_2_raw = temp.valid_time.isel(valid_time=-1).dt.strftime("%b %-d").item()
+
+# Replace month abbreviations with custom format
+month_1, day_1 = timestamp_1_raw.split()
+month_2, day_2 = timestamp_2_raw.split()
+
+timestamp_1 = f"{month_abbr[month_1]} {day_1}"
+timestamp_2 = f"{month_abbr[month_2]} {day_2}"
 
 # Print or use the formatted timestamps
 print(f"Timestamp for temp[0]: {timestamp_1}")
